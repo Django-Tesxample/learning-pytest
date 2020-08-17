@@ -1,0 +1,66 @@
+version: "3.5"
+services:
+  nginx:
+    image: nginx:${NGINX_VERSION:-latest}
+    ports:
+      - "80:80"
+    container_name: nginx
+    networks:
+      - frontend
+      - backend
+    depends_on:
+      - mysql
+      - django
+    volumes:
+      - ./src/:/app
+      #- ./nginx/djangotesxample.conf:/etc/nginx/conf.d/default.conf
+    environment:
+      document_root: "${PHP_ROOT}"
+  
+  db:
+    image: postgres:12-alpine
+    volumes:
+      - ./db:/var/lib/postgresql/data/pgdata
+    networks:
+      - backend
+    environment:
+      POSTGRES_DATABASE: tesxample
+      POSTGRES_USER: "${DB_USERNAME}"
+      POSTGRES_PASSWORD: "${DB_PASSWORD}"
+    container_name: postgres
+  
+  django:
+    build:
+      context: './'
+      args:
+       PYTHON_VERSION: ${PYTHON_VERSION}
+       DJANGO_ROOT: ${SRC_ROOT}
+      target: base
+    command: "tail -f /dev/null"
+    volumes:
+      - ${SRC_ROOT}/:/app
+    networks:
+      - backend
+    environment:
+      POSTGRES_DATABASE: tesxample
+      POSTGRES_USER: "${DB_USERNAME}"
+      POSTGRES_PASSWORD: "${DB_PASSWORD}"
+      SECRET_KEY: "${SECRET_KEY}"
+      DEBUG: "${DEBUG}"
+      
+      ENVIRONMENT_CONFIGURATION: "Dev"
+    depends_on:
+      - db
+    container_name: django
+  
+  mail:
+    image: mailhog/mailhog
+    ports:
+      - "8025:8025"
+    networks:
+      - backend
+networks:
+  frontend:
+  backend:
+volumes:
+    data:
