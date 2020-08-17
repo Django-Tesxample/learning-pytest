@@ -4,12 +4,12 @@ services:
     image: nginx:${NGINX_VERSION:-latest}
     ports:
       - "80:80"
-    container_name: nginx
+    container_name: server
     networks:
       - frontend
       - backend
     depends_on:
-      - mysql
+      - db
       - django
     volumes:
       - ./src/:/app
@@ -25,7 +25,7 @@ services:
       POSTGRES_DATABASE: tesxample
       POSTGRES_USER: "${DB_USERNAME}"
       POSTGRES_PASSWORD: "${DB_PASSWORD}"
-    container_name: postgres
+    container_name: db
 
   django:
     build:
@@ -45,11 +45,10 @@ services:
       POSTGRES_PASSWORD: "${DB_PASSWORD}"
       SECRET_KEY: "${SECRET_KEY}"
       DEBUG: "${DEBUG}"
-      
       ENVIRONMENT_CONFIGURATION: "Dev"
     depends_on:
       - db
-    container_name: django
+    container_name: app
 
   mail:
     image: mailhog/mailhog
