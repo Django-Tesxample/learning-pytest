@@ -18,7 +18,7 @@ services:
   db:
     image: postgres:12-alpine
     volumes:
-      - ./db:/var/lib/postgresql/data/pgdata
+      - pgdata:/var/lib/postgresql/data/
     networks:
       - backend
     environment:
@@ -60,4 +60,4 @@ networks:
   frontend:
   backend:
 volumes:
-    data:
+    pgdata:
