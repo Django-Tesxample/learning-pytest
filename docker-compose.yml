@@ -32,11 +32,11 @@ services:
       context: './'
       args:
        PYTHON_VERSION: ${PYTHON_VERSION}
-       DJANGO_ROOT: ${SRC_ROOT}
+       DJANGO_ROOT: /app/src
       target: base
     command: "tail -f /dev/null"
     volumes:
-      - ${SRC_ROOT}/:/app
+      - ./:/app
     networks:
       - backend
     environment:
@@ -45,7 +45,6 @@ services:
       POSTGRES_PASSWORD: "${DB_PASSWORD}"
       SECRET_KEY: "${SECRET_KEY}"
       DEBUG: "${DEBUG}"
-      ENVIRONMENT_CONFIGURATION: "Dev"
     depends_on:
       - db
     container_name: app
