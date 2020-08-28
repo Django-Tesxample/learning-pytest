@@ -1,11 +1,9 @@
 import logging
 import pytest
-import time
 
 
 @pytest.fixture(scope='class')
 def person_data():
-    time.sleep(1)
     logging.info('Calling person_data fixture')
     return {'first_name': 'Juan', 'last_name': 'Lee'}
 
