@@ -20,14 +20,24 @@ fixtures a través de varios tests. Los scopes disponibles son:
 
 ### Ejemplos
 
-En la carpeta scopes hay 3 archivos. El archivo *test_class_scopes* tiene un
-fixture con scope *class*. En el fixture hay un logging para ver en consola
-cuantas veces se llama al fixture.
+En la carpeta scopes hay 3 archivos. El archivo [test_class_scopes](./scopes/test_class_scopes.py) tiene el siguiente 
+fixture con scope *class*. 
 
-Parados en /app/src/ dentro del container, si corren `pytest nodjango_tests/fixtures/scopes/test_class_scope.py`
-van a ver que en consola aparece *Calling person_data fixture* 2 veces, aunque
+```python
+@pytest.fixture(scope='class')
+def person_data():
+    logging.info('Calling person_data fixture')
+    return {'first_name': 'Juan', 'last_name': 'Lee'}
+```
+En el fixture hay un logging para ver en consola cuantas veces se llama al fixture. Parados en /app/src/ dentro del container, si corren:
+```bash
+pytest nodjango_tests/fixtures_tutorial/scopes/test_class_scope.py
+```
+como se ve en la imagen, van a ver que en consola aparece *Calling person_data fixture* 2 veces, aunque
 si revisan el código el fixture se usa en 4 tests. Pero como el *scope* elegido
 para el fixture es *class*, el fixture corre una vez por cada clase.
+
+![picture](../../../docs/images/fixtures_tutorial/tests_class_scope_out.png)
 
 Si leen el log con atención, verán que primero aparece el log que indica que se
 va a correr el test *test_check_first_name* de la clase Test1, inmediatamente abajo
