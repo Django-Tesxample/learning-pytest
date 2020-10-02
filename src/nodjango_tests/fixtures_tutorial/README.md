@@ -1,4 +1,4 @@
-# Pytest fixture
+# Pytest fixtures tutorial
 
 
 ## Scopes
@@ -20,7 +20,7 @@ fixtures a través de varios tests. Los scopes disponibles son:
 
 ### Ejemplos
 
-En la carpeta scopes hay 3 archivos. El archivo [test_class_scopes](./scopes/test_class_scopes.py) tiene el siguiente 
+En la carpeta scopes hay 3 archivos. El archivo [test_class_scopes](scopes/test_class_scopes.py) tiene el siguiente 
 fixture con scope *class*. 
 
 ```python
