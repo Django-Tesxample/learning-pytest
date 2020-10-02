@@ -20,7 +20,7 @@ fixtures a través de varios tests. Los scopes disponibles son:
 
 ### Ejemplos
 
-En la carpeta scopes hay 3 archivos. El archivo [test_class_scopes](scopes/test_class_scopes.py) tiene el siguiente 
+En la carpeta scopes hay 3 archivos. El archivo *test_class_scopes.py* tiene el siguiente 
 fixture con scope *class*. 
 
 ```python
@@ -33,7 +33,7 @@ En el fixture hay un logging para ver en consola cuantas veces se llama al fixtu
 ```bash
 pytest nodjango_tests/fixtures_tutorial/scopes/test_class_scope.py
 ```
-como se ve en la imagen, van a ver que en consola aparece *Calling person_data fixture* 2 veces, aunque
+como se ve en la imagen, van a notar que en consola aparece *Calling person_data fixture* 2 veces, aunque
 si revisan el código el fixture se usa en 4 tests. Pero como el *scope* elegido
 para el fixture es *class*, el fixture corre una vez por cada clase.
 
@@ -42,12 +42,29 @@ para el fixture es *class*, el fixture corre una vez por cada clase.
 Si leen el log con atención, verán que primero aparece el log que indica que se
 va a correr el test *test_check_first_name* de la clase Test1, inmediatamente abajo
 aparece el log del fixture. Luego, aparece el log que indica que se está corriendo
-el test *test_check_last_name* de la clase Test1. Después se repite el mismo patrón
-pero con los tests de la clase Test2.
+el test *test_check_last_name* de la clase Test1 (sin aparecer el log del fixture). Después se repite el mismo patrón
+pero con los tests de la clase Test2. Claramente el fixture se esta llamando una sola vez por clase. A continuación pueden ver el codigo completo para estos tests.
 
-Pueden chequear como funciona el resto de los scopes corriendo los módulos
-*test_function_scope* y *test_module_scope* y analizando los logs como lo hicimos
-antes.
+```python
+class Test1:
+    def test_check_first_name(self, person_data):
+        assert person_data.get('first_name') == 'Juan'
+
+    def test_check_last_name(self, person_data):
+        assert person_data.get('last_name') == 'Lee'
+
+
+class Test2:
+    def test_check_first_name(self, person_data):
+        assert person_data.get('first_name') == 'Juan'
+
+    def test_check_last_name(self, person_data):
+        assert person_data.get('last_name') == 'Lee'
+```
+
+Pueden chequear como funciona el resto de los scopes corriendo los módulos:
+* *test_function_scope* : este archivo tiene la clase Test1 mostrada en el código de arriba, pero el fixture visto antes, esta declarado con scope a nivel función, consecuentemente el log del fixture se repite dos veces, aunque las funciones esten dentro de la misma clase.
+* *test_module_scope* : este archivos tiene las dos clases del codigo de arriba y además dos funciones sueltas que utilizan el fixture, pero como el scope del mismo en este caso es a nivel módulo el log del fixture solo se va ver una vez.
 
 ## Shared
 Hay situaciones en las que es útil o necesario poder compartir fixtures entre
@@ -62,12 +79,16 @@ hasta ahora.
 Dentro de la carpeta shared hay un archivo conftest con el fixture que usan los
 tests que hay definidos. Además, en el archivo llamado *test_three.py* pisamos
 el nombre del fixture y lo redefinimos con otros valores. Pueden correr los tests
-con `pytest nodjango_tests/fixtures/shared/`. Verán que los tests en *test_one.py*
+con:
+```bash
+pytest nodjango_tests/fixtures_tutorial/shared/
+```
+Verán que los tests en *test_one.py*
 y *test_two.py* usan el fixture definido en conftest (con scope package) pero que
 *test_three.py* usa el fixture redefinido. Esto es por cómo pytest resuelve los
 fixtures. Tengan cuidado si usan fixtures con nombres muy genéricos porque puede
 pasarles que terminen pisando un fixture existente.
 
-### Useful links
+### Recursos
 
 * https://docs.pytest.org/en/stable/fixture.html
