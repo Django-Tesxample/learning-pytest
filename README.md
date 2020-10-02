@@ -32,3 +32,12 @@ Primero con ganas 😁
 
 
 ### Ejemplo de Docstrings
+
+
+## Que tenemos hasta ahora
+Hay que ver si esta sección es mantenible o solo una utopía, pero la idea es tener una lista al menos a nivel módulo de todo lo que se puede encontrar dentro del repo.
+### Tests por tematicas
+* mails: TODO la clave deberia ser un link al README, correspondiente a la carpeta donde esten los test que tienen que ver con procesos con mails
+
+### Tutoriales/Articulos
+* [Fixtures y Scopes](src/nodjango_tests/fixtures_tutorial) : Tutorial con ejemplos locales de los diferentes tipos de scopes que pueden tener los fixtures y como funcionan.
