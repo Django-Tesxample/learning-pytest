@@ -4,7 +4,7 @@ Repositorio de ejemplos documentados de test para Django y Python en general.
 
 ## Introducción
 
-La idea de este respositorio es ser exáctamente eso, un repositorio. O sea, en lugar de ser el repositorio de código de un aplicativo, la idea es que este contenga código de ejemplos de diversos casos de test, que se puedan bajar y correr en el mismo. La idea es subir ejemplos típicos de las diversas cosas que habitualmente se necesitan testear (patrones de diseño, testeo de envio de emails, testeo de vistas y formularios de django, armados de mocks para diferentes cosas, etc), y definir una forma de documentar los ejemplos para colaborar con el repo ordenadamente.
+La idea de este respositorio es ser exáctamente eso, un repositorio. O sea, en lugar de ser el repositorio de código de un aplicativo, la idea es que este contenga código de ejemplos de diversos casos de test, que se puedan bajar y correr en el mismo. La idea es subir ejemplos típicos de las diversas cosas que habitualmente se necesitan testear (patrones de diseño, testeo de envio de emails, testeo de vistas/formularios de django, armados de mocks para diferentes cosas, etc), y definir una forma de documentar los ejemplos para colaborar con el repo ordenadamente.
 
 Principalmente nos gustaría llegar a cumplir las siguientes metas:
 * Definir un flujo y estilo para colaborar con el repo.
@@ -16,14 +16,15 @@ Principalmente nos gustaría llegar a cumplir las siguientes metas:
 * Que la mayoria de la documentación sea autogenerada desde los docstrings (SPHINX??).
 * Tener una sección de articulos con tutoriales o documentaciones mas extensas de ciertas temáticas de test que hagan referencia a código dentro de este mismo repo (O la WIKI?).
 * Inicialmente el repo es para la comunidad de habla hispana, pero idealmente (si es que toma forma) se podría poder pensar en traducir a otros idomas.
+* ¿Base de todos los test hasta el momento documentados?
 
 ## Estilos
 
 * Se intenta que todo el código dentro del repo (al menos el de autor) respete PEP8, se recomienda usar el linter flake8 dentro del IDE. 
 * La forma de escribir los docstring va a ser la propuesta por la guia de estilos de [google](https://google.github.io/styleguide/pyguide.html#38-comments-and-docstrings). 
 * (TODO: creo qeu esto tiene otro nombre) El manejo de ramas va a ser un resumen de [git-flow](https://www.atlassian.com/es/git/tutorials/comparing-workflows/gitflow-workflow). Al no ser un producto solo se va a conservar como rama principal **master**, desde la misma se crearan ramas **feature** y se mergearan a master desde un PR.
-* Si el ejemplo desarrollado es extraido de alguna fuente, en el Docstring del mismo, bajo el encabezado *"Sources:"* se deben agregar las fuentes como lista de markdown, de las misma forma que con *"Args:"* se listan los argumentos de la función.
-* Lenguaje para los docstings???
+* Si el ejemplo desarrollado es extraido de alguna fuente, en el Docstring del mismo, bajo el encabezado *"Sources:"* se deben agregar las fuentes como una lista de markdown, de las misma forma que con *"Args:"* se listan los argumentos de la función.
+* Idioma para los docstings???
 
 ## Como colaborar
 
