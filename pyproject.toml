@@ -10,8 +10,10 @@ authors = [
 [tool.poetry.dependencies]
 python = "^3.8"
 django = "^3.1"
+pytest-django = "^3.9.0"
 
 [tool.poetry.dev-dependencies]
+flake8 = "^3.8.3"
 pytest = "^5.2"
 
 [build-system]
