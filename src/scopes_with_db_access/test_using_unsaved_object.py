@@ -13,7 +13,7 @@ def user_with_perm():
     # Create a user without saving it to the DB
     User = get_user_model()
     user = User(username='a_user')
-    # Mock get_all_permissions to avoid
+    # Mock get_all_permissions to avoid a database access
     user.get_all_permissions = Mock(return_value={'admin.add_logentry'})
     return user
 
