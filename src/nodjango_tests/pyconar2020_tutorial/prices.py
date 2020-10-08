@@ -1,9 +1,9 @@
 from nodjango_tests.pyconar2020_tutorial.services import get_prices_list
 
 
-def get_min_value(sort_function, values):
-    """Retorna el mínimo valor de una lista basado
-    en un funcion de orden.
+def get_first_value(sort_function, values):
+    """Retorna el primer valor de una lista luego de
+    ordenarla con la funcion de orden pasada
     """
     ordered = sort_function(values)
     return ordered[0]
@@ -14,7 +14,7 @@ def get_min_price():
     un servicio
     """
     prices = get_prices_list()
-    min_price = get_min_value(sorted, prices)
+    min_price = get_first_value(sorted, prices)
     return min_price
 
 
@@ -23,7 +23,7 @@ def get_min_price_bad():
     """
     prices = get_prices_list()
     try:
-        min_price = get_min_value(sorted, prices)
+        min_price = get_first_value(sorted, prices)
     except IndexError:
         return 0
 
