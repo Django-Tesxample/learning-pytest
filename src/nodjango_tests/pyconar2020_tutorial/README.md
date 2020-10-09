@@ -138,4 +138,86 @@ def get_min_price():
 Si recordamos, en el último test que hicimos de ```get_first_value```, pudimos mockear la función ```sorted```, verificar que se usaba, y como se usaba dentro de nuestra función muy fácilmente. Esta facilidad radica en que ```get_first_value``` recibe la función de ordenamiento como parámetro. Luego sencillamente pasamos nuestro mock como parámetro y listo. Pero en el caso de la función ```get_min_price```, no recibe ningún parametro y hace uso de nuesra funcion ```get_first_value``` (que ya testeamos y ahora queremos testear que es llamada dentro de esta función), como también hace uso de un servicio que nos retorna una lista de precios, el cual no nos corresponde testear y deberiamos mockearlo también, especialmente siendo un servicio externo sobre el cual no tenemos gobernanza. Pero como hacemos para reemplaza estas funciones en nuestro test por mocks que controlemos. Aca es donde aparece Patch.
 
 ### Patch
-Patch
+Patch nos permite remplazar funciones que se usan es ciertos lugares del código por mocks, en general cuando realizamos test casi todo esta en ver como escribir bien los patch y los mokcs, después de todo, lo demás es casi verificar que el llamado a una función da un resultado esperado. Imaginemos que queremos verificar que ```get_min_price``` nos da el resultado esperado, iniciarimos con un test del tipo:
+```python
+# nodjango_tests/pyconar2020_tutorial/tests/test_prices.py
+from nodjango_tests.pyconar2020_tutorial.prices import get_min_price
+
+def test_get_min_price_returns_min_values():
+    assert ??? == get_min_price()
+```
+Claramente al usar un servicio no determinístico para obtener la lista de precios, cualquier cosa que pongamos para reemplazar **???**, sólo va a funcionar cuando tengamos suerte. También podría pasar que el servicio este caido mientras ejecutemos nuestro test o podriamos llegar a querer testear como se comporta nuestro código cuando el servicio esta caido, etc. Todos estos escenarios podriamos simularlos usando un mock nuestro del serivicio, y este mismo test se deberia escribir de la formar:
+
+
+```python
+# nodjango_tests/pyconar2020_tutorial/tests/test_prices.py
+from nodjango_tests.pyconar2020_tutorial.prices import get_min_price
+from unittest.mock import patch
+
+
+def test_get_min_price_returns_min_values():
+    prices_list = [8, 3, 5, 7, 6]
+    with patch(
+        'nodjango_tests.pyconar2020_tutorial.prices.get_prices_list'
+    ) as mock_prices:
+        mock_prices.return_value = prices_list
+        assert 3 == get_min_price()
+```
+o
+```python
+# nodjango_tests/pyconar2020_tutorial/tests/test_prices.py
+from nodjango_tests.pyconar2020_tutorial.prices import get_min_price
+from unittest.mock import patch
+
+
+@patch('nodjango_tests.pyconar2020_tutorial.prices.get_prices_list')
+def test_get_min_price_returns_min_values(mock_prices):
+    prices_list = [8, 3, 5, 7, 6]
+    mock_prices.return_value = prices_list
+    assert 3 == get_min_price()
+```
+Notar que la ruta del patch deber ser al lugar donde se usa la función que se quiere mockear y no al lugar donde esta esté definida. Luego con este test verificamos que si el servicio retorna esa lista especifica, nuestra función retorna el mínimo valor que es 3, lo cual ya sabiamos por que anteriormente habiamos corroborado que ```get_first_value``` retornaba 3 con esta misma lista. Lo que en verdad queriamos ver ahora es que nuestra función ```get_min_price```, usa la función ```get_first_value``` y retorna lo mismo que responde esa función que ya testeamos anteriormente.
+
+```python
+# nodjango_tests/pyconar2020_tutorial/tests/test_prices.py
+from nodjango_tests.pyconar2020_tutorial.prices import get_min_price
+from unittest.mock import patch
+
+
+@patch('nodjango_tests.pyconar2020_tutorial.prices.get_first_value')
+@patch('nodjango_tests.pyconar2020_tutorial.prices.get_prices_list')
+def test_get_min_price_use_get_first_value(mock_g_prices, mock_g_first):
+    prices_list = [8, 3, 5, 7, 6]
+    mock_g_prices.return_value = prices_list
+    mock_g_first.return_value = 4  # 😁
+    assert 4 == get_min_price()
+    mock_g_first.assert_called_once_with(sorted, prices_list)
+```
+
+### Fixtures
+Bueno, último tema para este pseudo tutorial inicial, que ya son bastantes temas. Es raro (o no el común de los casos), que nuestras funciones estén completamnete aisladas, las mismas suelen ejecutarse dentro del contexto de algún aplicativo, el que puede hacer uso de muchas cosas como variables de entorno, bases de datos, usuario, servicios, etc. Los fixtures son una fomra de construir estos contextos para nuestros tests, siguiendo el ejemplo de tests mostrado hasta ahora, es fácil ver que en casi todos los tests usamos la siguiente linea para mockear la repuesta del servicio de precios
+```python
+prices_list = [8, 3, 5, 7, 6]
+```
+en este caso es una sencilla lista pero los servicios que consumimos puden retornar objetos mucho mas complejos, diccionarios que representes personas con datos de domicilio, contacto, ..., lista de articulos, etc. Y entre que no queremos duplicar esa porción de código en cada test que escribimos, también podemos querer que nuestros test se ejecuten todos con los mismos casos, etc. Los fixures para los test se suelen escribir en un archivos nombrado **conftest.py** dentro del directorio tests, y se usa el decorator fixture que nos provee pytest como se muestra a continuación:
+
+```python
+# nodjango_tests/pyconar2020_tutorial/tests/conftest.py
+import pytest
+
+
+@pytest.fixture
+def prices_list():
+    return [8, 3, 5, 7, 6]
+```
+En el [tutorial de fixtures](../fixtures_tutorial/README.md) puden ver como es que pytest hace lo que llama el "fixture discovery". Luego para hacer el uso del mismo solo 
+
+```python
+@pytest.fixture
+def mock_env_user(monkeypatch):
+    monkeypatch.setenv("USER", "TestingUser")
+
+def test_some_conection(mock_env_user):
+    # something here that use 
+    os.getenv("USER")
+```
