@@ -1,3 +1,10 @@
+---
+title: Tutorial de Pytest
+author: Andres Ramirez Miori
+date: 15/09/2020
+...
+
+
 # Tutorial Pytest (PyconAr 2020)
 
 ## Propósito
@@ -210,14 +217,34 @@ import pytest
 def prices_list():
     return [8, 3, 5, 7, 6]
 ```
-En el [tutorial de fixtures](../fixtures_tutorial/README.md) puden ver como es que pytest hace lo que llama el "fixture discovery". Luego para hacer el uso del mismo solo 
+En el [tutorial de fixtures](../fixtures_tutorial/README.md) puden ver como es que pytest hace lo que se llama el **"fixture discovery"**. Luego para hacer el uso del fixture sencillamente lo usamos en la función de test por su nombre, como si fuese un parámetro. En el primer test que hicimos cambiaria así
+
+```python
+# Sin usar fixture
+def test_get_first_value_returns_min():
+    prices_list = [8, 3, 5, 7, 6]
+    assert 3 == get_first_value(sorted, prices_list)
+
+# Usando fixture
+def test_get_first_value_returns_min(prices_list):
+    assert 3 == get_first_value(sorted, prices_list)
+```
+el mismo remplazo se puede realizar en todos los test donde usabamos esa lista y en todos esos lugares los valore de esa lista van a ser los definidos en el fixture. Otro uso muy común para los fixtures, es tener por ejemplo un usuario del sistema o la definición de algunas variables de entorno que nuestro aplicativo utilice. Ya sea por que necesitmos que esten definidas a la hora de correr los test y nada nos asegura esto, o por que queremos que tengan un valor especifico mientras corremos los tests. Pytest nos provee con un fixture especial y muy útil llamado **monkeypatch** este fixture nos da muchas funcionalidades para patchear y mockear diferentes objetos, variables, etc. En el siguiente ejemplo creamos un fixture que nos asegura, que en los tests donde lo usemos, la varibale de entorno **USER**, va a tener el valor **TestingUser**, y una vez que el test termine de correrse esa misma varibale va a quedar en su estado original. Se puede ver que un fixture se puede usar como parámetro de otro fixture, como se hace a continuación con monkeypatch. 
+
 
 ```python
 @pytest.fixture
-def mock_env_user(monkeypatch):
+def env_user(monkeypatch):
     monkeypatch.setenv("USER", "TestingUser")
 
 def test_some_conection(mock_env_user):
     # something here that use 
-    os.getenv("USER")
+    assert "TestingUser" == os.getenv("USER")
 ```
+
+## Recursos
+
+* [Pytest](https://docs.pytest.org/en/stable/): Pagina oficial de Pytest
+* [MonkeyPatch](https://docs.pytest.org/en/stable/monkeypatch.html): De la página oficial de pytest la sección correspondiente a monkeypatch.
+* [Fixtures](../fixtures_tutorial/README.md): Tutorial de fixtures y scopes de este repo escrito por Mariano Bianchi
+
