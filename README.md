@@ -39,5 +39,6 @@ Hay que ver si esta sección es mantenible o solo una utopía, pero la idea es t
 ### Tests por tematicas
 * mails: TODO la clave deberia ser un link al README, correspondiente a la carpeta donde esten los test que tienen que ver con procesos con mails
 
-### Tutoriales/Articulos
+### Tutoriales/Artículos
 * [Fixtures y Scopes](src/nodjango_tests/fixtures_tutorial) : Tutorial con ejemplos locales de los diferentes tipos de scopes que pueden tener los fixtures y como funcionan.
+* [Introducción a Pytest](src/nodjango_tests/pyconar2020_tutorial) : Tutorial de introduccón a pytest.
