@@ -241,6 +241,22 @@ def test_some_conection(mock_env_user):
     # something here that use 
     assert "TestingUser" == os.getenv("USER")
 ```
+### BDD
+Desarrollo orientado por el comportamiento. Para los que les gusta estos temas de ingenieria del software, una de las forma de escribir los casos de uso en BDD es usar los llamados "criterios de aceptación", estos indican que un caso de uso se debe escribir siguiendo la estructura:
+* Dado (Given): nos econtramos en el algún instante de mi app.
+* Cuando (When): se realiza una acción.
+* Entonces (Then): sucede lo que espero de la funcionalidad.
+
+Ejemplificando, con el típico ejemplo de la lista de tareas, un requerimiento podria ser que se desea poder mantener una lista de tareas actualizada, y uno de los casos de uso correspondientes a este requerimiento es que debo poder agregar una tarea a una lista de tareas existente. Si lo escribimos como definimos anteriormente.
+
+* Dado: que se cuenta con una lista de tareas ya iniciada.
+* Cuando: se ejecuta agregar una tarea en la lista con un texto que la describe.
+* Entonces: se obtiene la lista de tareas con la el texto agregado como nueva tarea.
+
+Con la siguiente imagen se puede ver como reflejar exactamente el caso de uso con lo que correspondería a realizar un test del mismo.
+
+![picture](../../../docs/images/pytest_tutorial/bdd_to_tests.png)
+
 
 ## Recursos
 
