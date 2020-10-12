@@ -34,7 +34,7 @@ def test_get_min_price_use_get_first_value(mock_g_prices, mock_g_first):
 @pytest.mark.xfail
 def test_get_first_value_fails():
     prices_list = ['100', '90', '400']
-    assert '90' == get_first_value(sorted, prices_list)
+    assert get_first_value(sorted, prices_list) == '90'
 
 
 def test_get_first_value_returns_min_on_string_numbers():
