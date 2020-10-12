@@ -58,7 +58,7 @@ from nodjango_tests.pyconar2020_tutorial.prices import get_first_value
 
 def test_get_first_value_returns_min():
     prices_list = [8, 3, 5, 7, 6]
-    assert 3 == get_first_value(sorted, prices_list)
+    assert get_first_value(sorted, prices_list) == 3
 
 
 def test_get_first_value_except_on_empty_list():
@@ -74,7 +74,7 @@ cuando uno espera. O sea no se debería llamar a una función que retorna el pri
 ```python
 def test_get_first_value_fails():
     prices_list = ['100', '90', '400']
-    assert '90' == get_first_value(sorted, prices_list)
+    assert get_first_value(sorted, prices_list) == '90'
 ```
 no por que get_first_value este mal, sino por la forma en que la utilizamos (recordemos que la funcionalidad no es retornar el mínimo valor, sino tan solo el primer elemento luego de aplicar la función de orden), en cambio si hicieramos la misma llamada cambiando la función de orden como se muestra a continuación el mismo test estaría pasando.
 
@@ -84,7 +84,7 @@ def test_get_first_value_returns_min_on_string_numbers():
         return sorted(string_numbers, key=lambda x: int(x))
 
     prices_list = ['100', '90', '400']
-    assert '90' == get_first_value(sort_string_numbers, prices_list)
+    assert get_first_value(sort_string_numbers, prices_list) == '90'
 ```
 Lo único que nosotro deberiamos poder asegurar de la función de orden es que nos retorna la lista de elementos en otro orden, y como no es una función nuestra, tampoco deberiamos testearla. Aca es donde aparece la necesidad de Mock.
 
@@ -97,7 +97,7 @@ from unittest.mock import Mock
 def test_get_first_value_returns_ordered_first():
     prices_list = [8, 3, 5, 7, 6]
     mock_sort_function = Mock(return_value=[3, 5, 6, 7, 8])
-    assert 3 == get_first_value(mock_sort_function, prices_list)
+    assert get_first_value(mock_sort_function, prices_list) == 3
 ```
 
 Uno podría plantearse para que usamos la clase Mock o MagicMock si directamente podemos hacer algo de la siguiente pinta:
@@ -105,7 +105,7 @@ Uno podría plantearse para que usamos la clase Mock o MagicMock si directamente
 ```python
 def test_get_first_value_returns_ordered_first():
     prices_list = [8, 3, 5, 7, 6]
-    assert 3 == get_first_value(lambda :[3, 5, 6, 7, 8], prices_list)
+    assert get_first_value(lambda :[3, 5, 6, 7, 8], prices_list) == 3
 ```
 Es verdad que en este caso con ```lambda``` podemos representar un buen mock de la función de orden, pero la librería mock nos provee un montón de herramientas más, muchas de las cuales sirven para ayudarnos a mockear objetos y funciones mas complicados y otras para testear como son usados esos objectos y funciones que mockeamos. En el siguiente ejemplo podemos ver como a partir del mismo mock, en nuestro test podemos corroborar que la función de orden es llamada, y que es llamada con los parámetros que esperamos.
 
@@ -113,7 +113,7 @@ Es verdad que en este caso con ```lambda``` podemos representar un buen mock de 
 def test_get_first_value_returns_ordered_first():
     prices_list = [8, 3, 5, 7, 6]
     mock_sort_function = Mock(return_value=[3, 5, 6, 7, 8])
-    assert 3 == get_first_value(mock_sort_function, prices_list)
+    assert get_first_value(mock_sort_function, prices_list) == 3
     assert mock_sort_function.call_count == 1
     # verificamos que se llama a la funcion de orden con la lista incial
     mock_sort_function.assert_called_with(prices_list)
@@ -151,7 +151,7 @@ Patch nos permite remplazar funciones que se usan es ciertos lugares del código
 from nodjango_tests.pyconar2020_tutorial.prices import get_min_price
 
 def test_get_min_price_returns_min_values():
-    assert ??? == get_min_price()
+    assert get_min_price() == ???
 ```
 Claramente al usar un servicio no determinístico para obtener la lista de precios, cualquier cosa que pongamos para reemplazar **???**, sólo va a funcionar cuando tengamos suerte. También podría pasar que el servicio este caido mientras ejecutemos nuestro test o podriamos llegar a querer testear como se comporta nuestro código cuando el servicio esta caido, etc. Todos estos escenarios podriamos simularlos usando un mock nuestro del serivicio, y este mismo test se deberia escribir de la formar:
 
@@ -168,7 +168,7 @@ def test_get_min_price_returns_min_values():
         'nodjango_tests.pyconar2020_tutorial.prices.get_prices_list'
     ) as mock_prices:
         mock_prices.return_value = prices_list
-        assert 3 == get_min_price()
+        assert get_min_price() == 3 
 ```
 o
 ```python
@@ -227,7 +227,7 @@ def test_get_first_value_returns_min():
 
 # Usando fixture
 def test_get_first_value_returns_min(prices_list):
-    assert get_first_value(sorted, prices_list) == 3
+    assert 3 == get_first_value(sorted, prices_list)
 ```
 el mismo remplazo se puede realizar en todos los test donde usabamos esa lista y en todos esos lugares los valore de esa lista van a ser los definidos en el fixture. Otro uso muy común para los fixtures, es tener por ejemplo un usuario del sistema o la definición de algunas variables de entorno que nuestro aplicativo utilice. Ya sea por que necesitmos que esten definidas a la hora de correr los test y nada nos asegura esto, o por que queremos que tengan un valor especifico mientras corremos los tests. Pytest nos provee con un fixture especial y muy útil llamado **monkeypatch** este fixture nos da muchas funcionalidades para patchear y mockear diferentes objetos, variables, etc. En el siguiente ejemplo creamos un fixture que nos asegura, que en los tests donde lo usemos, la varibale de entorno **USER**, va a tener el valor **TestingUser**, y una vez que el test termine de correrse esa misma varibale va a quedar en su estado original. Se puede ver que un fixture se puede usar como parámetro de otro fixture, como se hace a continuación con monkeypatch. 
 
