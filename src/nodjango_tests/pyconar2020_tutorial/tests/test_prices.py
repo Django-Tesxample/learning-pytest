@@ -48,7 +48,7 @@ def test_get_first_value_returns_min_on_string_numbers():
 def test_get_first_value_returns_ordered_first():
     prices_list = [8, 3, 5, 7, 6]
     mock_sort_function = Mock(return_value=[3, 5, 6, 7, 8])
-    assert 3 == get_first_value(mock_sort_function, prices_list)
+    assert get_first_value(mock_sort_function, prices_list) == 3
     assert mock_sort_function.call_count == 1
     # verificamos que se llama a la funcion de orden con la lista incial
     mock_sort_function.assert_called_with(prices_list)
