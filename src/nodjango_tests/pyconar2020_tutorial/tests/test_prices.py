@@ -18,7 +18,7 @@ def test_get_min_price_returns_min_values():
     prices_list = [8, 3, 5, 7, 6]
     with patch('nodjango_tests.pyconar2020_tutorial.prices.get_prices_list') as mock_prices:
         mock_prices.return_value = prices_list
-        assert 3 == get_min_price()
+        assert get_min_price() == 3
 
 
 @patch('nodjango_tests.pyconar2020_tutorial.prices.get_first_value')
