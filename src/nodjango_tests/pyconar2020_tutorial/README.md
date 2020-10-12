@@ -181,7 +181,7 @@ from unittest.mock import patch
 def test_get_min_price_returns_min_values(mock_prices):
     prices_list = [8, 3, 5, 7, 6]
     mock_prices.return_value = prices_list
-    assert 3 == get_min_price()
+    assert get_min_price() == 3
 ```
 Notar que la ruta del patch deber ser al lugar donde se usa la función que se quiere mockear y no al lugar donde esta esté definida. Luego con este test verificamos que si el servicio retorna esa lista especifica, nuestra función retorna el mínimo valor que es 3, lo cual ya sabiamos por que anteriormente habiamos corroborado que ```get_first_value``` retornaba 3 con esta misma lista. Lo que en verdad queriamos ver ahora es que nuestra función ```get_min_price```, usa la función ```get_first_value``` y retorna lo mismo que responde esa función que ya testeamos anteriormente.
 
@@ -263,4 +263,3 @@ Con la siguiente imagen se puede ver como reflejar exactamente el caso de uso co
 * [Pytest](https://docs.pytest.org/en/stable/): Pagina oficial de Pytest
 * [MonkeyPatch](https://docs.pytest.org/en/stable/monkeypatch.html): De la página oficial de pytest la sección correspondiente a monkeypatch.
 * [Fixtures](../fixtures_tutorial/README.md): Tutorial de fixtures y scopes de este repo escrito por Mariano Bianchi
-
