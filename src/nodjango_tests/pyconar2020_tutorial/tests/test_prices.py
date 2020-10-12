@@ -42,7 +42,7 @@ def test_get_first_value_returns_min_on_string_numbers():
         return sorted(string_numbers, key=lambda x: int(x))
 
     prices_list = ['100', '90', '400']
-    assert '90' == get_first_value(sort_string_numbers, prices_list)
+    assert get_first_value(sort_string_numbers, prices_list) == '90'
 
 
 def test_get_first_value_returns_ordered_first():
