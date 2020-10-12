@@ -239,7 +239,7 @@ def env_user(monkeypatch):
 
 def test_some_conection(mock_env_user):
     # something here that use 
-    assert "TestingUser" == os.getenv("USER")
+    assert os.getenv("USER") == "TestingUser"
 ```
 ### BDD
 Desarrollo orientado por el comportamiento. Para los que les gusta estos temas de ingenieria del software, una de las forma de escribir los casos de uso en BDD es usar los llamados "criterios de aceptación", estos indican que un caso de uso se debe escribir siguiendo la estructura:
