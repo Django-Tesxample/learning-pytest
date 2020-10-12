@@ -27,7 +27,7 @@ def test_get_min_price_use_get_first_value(mock_g_prices, mock_g_first):
     prices_list = [8, 3, 5, 7, 6]
     mock_g_prices.return_value = prices_list
     mock_g_first.return_value = 4  # 😁
-    assert 4 == get_min_price()
+    assert get_min_price() == 4
     mock_g_first.assert_called_once_with(sorted, prices_list)
 
 
