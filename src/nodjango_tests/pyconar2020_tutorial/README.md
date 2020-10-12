@@ -223,7 +223,7 @@ En el [tutorial de fixtures](../fixtures_tutorial/README.md) puden ver como es q
 # Sin usar fixture
 def test_get_first_value_returns_min():
     prices_list = [8, 3, 5, 7, 6]
-    assert 3 == get_first_value(sorted, prices_list)
+    assert get_first_value(sorted, prices_list) == 3
 
 # Usando fixture
 def test_get_first_value_returns_min(prices_list):
