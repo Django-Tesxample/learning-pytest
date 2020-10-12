@@ -227,7 +227,7 @@ def test_get_first_value_returns_min():
 
 # Usando fixture
 def test_get_first_value_returns_min(prices_list):
-    assert 3 == get_first_value(sorted, prices_list)
+    assert get_first_value(sorted, prices_list) == 3
 ```
 el mismo remplazo se puede realizar en todos los test donde usabamos esa lista y en todos esos lugares los valore de esa lista van a ser los definidos en el fixture. Otro uso muy común para los fixtures, es tener por ejemplo un usuario del sistema o la definición de algunas variables de entorno que nuestro aplicativo utilice. Ya sea por que necesitmos que esten definidas a la hora de correr los test y nada nos asegura esto, o por que queremos que tengan un valor especifico mientras corremos los tests. Pytest nos provee con un fixture especial y muy útil llamado **monkeypatch** este fixture nos da muchas funcionalidades para patchear y mockear diferentes objetos, variables, etc. En el siguiente ejemplo creamos un fixture que nos asegura, que en los tests donde lo usemos, la varibale de entorno **USER**, va a tener el valor **TestingUser**, y una vez que el test termine de correrse esa misma varibale va a quedar en su estado original. Se puede ver que un fixture se puede usar como parámetro de otro fixture, como se hace a continuación con monkeypatch. 
 
