@@ -12,6 +12,5 @@ class Test1:
     def test_check_first_name(self, person_data):
         assert person_data.get('first_name') == 'Juan'
 
-
     def test_check_last_name(self, person_data):
         assert person_data.get('last_name') == 'Lee'
