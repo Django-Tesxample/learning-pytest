@@ -19,7 +19,7 @@ def test_get_prices_list_converts_to_int(mock_request):
     assert get_prices_list() == [7, 10, 5, 8]
 
 
-def test_get_prices_converts_to_in_using_request_mock():
+def test_get_prices_converts_to_int_using_request_mock():
     """Verifica que la funcion get_prices_list ante un texto de respuesta válido
     retorna una lista de enteros, usando request_mock en lugar de patchear todo
     request.

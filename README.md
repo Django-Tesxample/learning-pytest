@@ -37,6 +37,8 @@ Primero con ganas 😁
 ## Que tenemos hasta ahora
 Hay que ver si esta sección es mantenible o solo una utopía, pero la idea es tener una lista al menos a nivel módulo de todo lo que se puede encontrar dentro del repo.
 ### Tests por tematicas
+* [Infraestructura](src/nodjango_tests/infrastructure): Test que tengan realción con algo de infraestructura, actualmente solo hay un test con chequeo de estilos del repo.
+* [Servicios externos](src/nodjango_test/external_services): Ejemplos de test y de formas de mocker servicios externos como por ejemplo una petición por request, acceso a una cola sqs de amazon, etc.
 * mails: TODO la clave deberia ser un link al README, correspondiente a la carpeta donde esten los test que tienen que ver con procesos con mails
 
 ### Tutoriales/Artículos

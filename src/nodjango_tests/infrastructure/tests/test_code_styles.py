@@ -19,6 +19,13 @@ def python_filepaths():
 
 
 def test_flake8(python_filepaths):
+    """[summary]
+
+    Args:
+        python_filepaths (list): Fixture con lista de paths creados con pathlib
+    Sources:
+        [PyAr applicación members](https://github.com/PyAr/asoc_members)
+    """
     style_guide = get_style_guide(
         select=['E', 'W', 'F', 'C', 'N'],
         max_line_length=120
