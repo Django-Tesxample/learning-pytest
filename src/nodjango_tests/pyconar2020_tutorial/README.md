@@ -86,7 +86,7 @@ def test_get_first_value_returns_min_on_string_numbers():
     prices_list = ['100', '90', '400']
     assert get_first_value(sort_string_numbers, prices_list) == '90'
 ```
-Lo único que nosotro deberiamos poder asegurar de la función de orden es que nos retorna la lista de elementos en otro orden, y como no es una función nuestra, tampoco deberiamos testearla. Aca es donde aparece la necesidad de Mock.
+Lo único que nosotros deberiamos poder asegurar de la función de orden es que nos retorna la lista de elementos en otro orden, y como no es una función nuestra, tampoco deberiamos testearla. Aca es donde aparece la necesidad de Mock.
 
 ### Mock y MagicMock
 
